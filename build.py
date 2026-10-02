@@ -1,12 +1,18 @@
 #!/usr/bin/env python3.12
-"""Builds every page of the Living Word / Legacy Church site.
+"""Builds two separate websites from one set of content:
+livingword/  ->  livingwordchurch.com   (white, bold grotesque)
+legacy/      ->  legacychurchmidland.com (black, cinematic serif)
+
 
 Run:  python3.12 build.py   (needs Python 3.12+)
-Pages are written to the repo root. Shared look lives in assets/site.css,
-brand switching and the live popup in assets/site.js.
+Each site folder is self-contained (its own pages and assets/ copy) so it
+can be deployed to its own domain. Edit shared look in assets/site.css and
+the live popup in assets/site.js, then rebuild.
 """
 import html
 import os
+import re
+import shutil
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -103,9 +109,18 @@ def a(href, label, cls="btn"):
     return f'<a class="{cls}" href="{href}"{tgt}>{label}{ICON_OUT if ext else ICON_ARROW}</a>'
 
 
+BRAND = {"key": "livingword"}
+SITES = {
+    "livingword": {"name": "Living Word Church", "tagline": "Experience Jesus", "og": "hands"},
+    "legacy": {"name": "Legacy Church", "tagline": "Faith for generations.", "og": "smoke"},
+}
+
+
 def wordmark():
-    return ('<span class="wm wm-lw"><b>Living Word</b> <i>Church</i></span>'
-            '<span class="wm wm-lg"><b>Legacy</b> <small>Church</small></span>')
+    if BRAND["key"] == "legacy":
+        return '<span class="wm wm-lg"><b>Legacy</b> <small>Church</small></span>'
+    return '<span class="wm wm-lw"><b>Living Word</b> <i>Church</i></span>'
+
 
 
 def layout(slug, title, desc, body):
@@ -113,27 +128,22 @@ def layout(slug, title, desc, body):
     menu = "".join(
         f'<div class="menu-col"><p class="eyebrow">{g}</p>' +
         "".join(f'<a href="{h}">{t}</a>' for h, t in items) + "</div>" for g, items in MENU)
+    site = SITES[BRAND["key"]]
     return f"""<!doctype html>
-<html lang="en" data-brand="livingword">
+<html lang="en" data-brand="{BRAND['key']}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} · Living Word Church</title>
+<title>{title} · {site['name']}</title>
 <meta name="description" content="{html.escape(desc)}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{html.escape(desc)}">
-<meta property="og:image" content="{src('hands', 1200)}">
+<meta property="og:image" content="{src(site['og'], 1200)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.weserv.nl">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
-<script>
-(function(){{var d=document.documentElement,h=location.hostname,q=(location.search.match(/[?&]brand=(\\w+)/)||[])[1],b;
-if(/legacychurchmidland/.test(h))b="legacy";else if(/livingwordchurch/.test(h))b="livingword";
-else if(q){{b=q;try{{localStorage.setItem("brand",q)}}catch(e){{}}}}else{{try{{b=localStorage.getItem("brand")}}catch(e){{}}}}
-d.setAttribute("data-brand",b==="legacy"?"legacy":"livingword");}})();
-</script>
 </head>
 <body class="p-{slug}">
 <a class="skip" href="#main">Skip to content</a>
@@ -158,12 +168,6 @@ d.setAttribute("data-brand",b==="legacy"?"legacy":"livingword");}})();
 </main>
 {footer()}
 {live_modal()}
-<div class="switch" data-switch hidden>
-  <span>Preview</span>
-  <button type="button" data-sw="livingword">Living Word</button>
-  <button type="button" data-sw="legacy">Legacy</button>
-  <button type="button" data-sw-live>Live</button>
-</div>
 <script src="assets/site.js"></script>
 </body>
 </html>
@@ -193,8 +197,8 @@ def footer():
       </div>
     </div>
     <div class="foot-base">
-      <p>© <span data-year>2026</span> {NAME}. <span class="lg-only">Formerly Living Word Church.</span></p>
-      <p class="foot-tag" data-b="tagline">Experience Jesus</p>
+      <p>© <span data-year>2026</span> {SITES[BRAND['key']]['name']}.{' Formerly Living Word Church.' if BRAND['key'] == 'legacy' else ''}</p>
+      <p class="foot-tag">{SITES[BRAND['key']]['tagline']}</p>
     </div>
   </div>
 </footer>"""
@@ -855,11 +859,25 @@ PAGES["young-adults"] = ("Young Adults", "The Living Room: young adults at Livin
 """)
 
 
+def for_brand(html_text, key):
+    """Drop the other brand's blocks and bake in this brand's name."""
+    other = "lw" if key == "legacy" else "lg"
+    html_text = re.sub(r'<div class="%s-only">\n.*?\n</div>\n' % other, "", html_text, flags=re.S)
+    html_text = re.sub(r'<section class="([^"]*) %s-only">.*?</section>\n' % other, "", html_text, flags=re.S)
+    return html_text.replace(NAME, SITES[key]["name"])
+
+
 def main():
-    for slug, (title, desc, body) in PAGES.items():
-        with open(os.path.join(ROOT, slug + ".html"), "w") as f:
-            f.write(layout(slug, title, desc, body))
-    print("built", len(PAGES), "pages")
+    for key in SITES:
+        BRAND["key"] = key
+        out = os.path.join(ROOT, key)
+        shutil.rmtree(out, ignore_errors=True)
+        shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(out, "assets"))
+        for slug, (title, desc, body) in PAGES.items():
+            desc = desc.replace("Living Word Church", SITES[key]["name"])
+            with open(os.path.join(out, slug + ".html"), "w") as f:
+                f.write(for_brand(layout(slug, title, desc, body), key))
+        print("built", key, len(PAGES), "pages")
 
 
 if __name__ == "__main__":
