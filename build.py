@@ -69,7 +69,7 @@ IMG = {
     "lake": "file_070a1acd93974e348eaf0795937c8543/2025-06-13T00:00:57.208Z/Dawn_R_Lake_Baptism_MTB_1980_1.jpg",
     "cali": "file_d86c4a5bd7dd4a759a58d2ca21f243fe/2025-06-12T23:49:41.348Z/Cali_MTB_Preaching_1__5_-2.jpg",
     # Mark T. Barclay on stage with WELCOME on the screen, cropped in around him
-    "grandpa_welcome": "file_2c3af27266584ac59f76d542b9ef1aa2/2025-06-13T00:22:55.665Z/IMG_3248.jpg&cx=0&cy=1350&cw=2900&ch=1450&precrop",
+    "grandpa_welcome": "file_2c3af27266584ac59f76d542b9ef1aa2/2025-06-13T00:22:55.665Z/IMG_3248.jpg&cx=0&cy=880&cw=3280&ch=2460&precrop",
     "baptism_practice": "file_f5ab36f40d32454ba092768e9c58b24e/2025-06-13T00:00:23.831Z/SMTI_Baptism_Practice_1.jpg",
     "bensch_family": "file_75ae3a4e8f454fd2bce13f5be6f29e6d/2025-06-13T00:00:32.270Z/Ray_Bensch___Family_1.jpg",
     "seminar": "file_7cd9df32e3894236bbc79069393bf2ee/2025-06-13T00:00:39.967Z/MTB_Teaching_SMTI_H._S._Seminar__2.jpg",
@@ -232,7 +232,7 @@ def live_modal():
 </div>"""
 
 
-def phero(eyebrow, caps, accent, lede, photo, alt, btns="", pos=None):
+def phero(eyebrow, caps, accent, lede, photo, alt, btns="", pos=None, wide=False):
     return f"""<section class="phero">
   <div class="phero-text wrap">
     <p class="eyebrow">{eyebrow}</p>
@@ -240,7 +240,7 @@ def phero(eyebrow, caps, accent, lede, photo, alt, btns="", pos=None):
     <p class="lede">{lede}</p>
     {f'<div class="btns">{btns}</div>' if btns else ''}
   </div>
-  <figure class="phero-media reveal">{img(photo, alt, 2400, pos=pos, eager=True)}</figure>
+  <figure class="phero-media{' wide' if wide else ''} reveal">{img(photo, alt, 2400, pos=pos, eager=True)}</figure>
 </section>"""
 
 
@@ -532,7 +532,7 @@ PAGES["plan-a-visit"] = ("Plan a Visit", "Service times, directions, kids, parki
 
 # ---------------------------------------------------------------- next steps
 PAGES["next-steps"] = ("Next Steps", "Connect, get baptized, join the membership class, get prayer and start serving.", f"""
-{phero('Next steps', 'Take your', 'next step.', 'Wherever you are with God, there\'s a next step for you here.', 'grandpa_welcome', 'Mark T. Barclay on stage with WELCOME on the screen', pos='50% 50%')}
+{phero('Next steps', 'Take your', 'next step.', 'Wherever you are with God, there\'s a next step for you here.', 'grandpa_welcome', 'Mark T. Barclay on stage with WELCOME on the screen', wide=True)}
 
 <section class="wrap">
   <div class="cards">
@@ -657,10 +657,10 @@ PAGES["our-story"] = ("Our Story", "Living Word Church was planted in Midland, M
     <p class="lede">From a small rented hall to a home of our own, this is the story of what God has done since 1981.</p>
   </div>
   <div class="collage reveal">
+    {img('cali', 'Preaching in California in the early years', 900, eager=True)}
     {img('lake', 'A lake baptism in 1980', 900, eager=True)}
     {img('dedication', 'The congregation at the 1981 church dedication', 900, eager=True)}
     {img('frame', 'The church building frame going up', 900, eager=True)}
-    {img('crowd', 'A Sunday service today', 900, eager=True)}
   </div>
 </section>
 
@@ -681,13 +681,13 @@ PAGES["our-story"] = ("Our Story", "Living Word Church was planted in Midland, M
     <p class="year">1981</p>
     <div><h2>A church is born.</h2>
     <p>The church was planted in 1981, and those early services met in a rented hall. In May 1981 the congregation gathered to dedicate the church to God.</p></div>
-    <div class="chap-gallery">{img('hall', 'The rented hall where the church first met', 1000)}{img('dedication', 'The congregation at the 1981 dedication', 700)}{img('gathering', 'An early church gathering outdoors', 700)}</div>
+    <div class="chap-gallery">{img('hall', 'The rented hall where the church first met', 1000)}{img('dedication', 'The congregation at the 1981 dedication', 700)}{img('bensch_family', 'A church family in the early years', 700)}</div>
   </article>
   <article class="chapter reveal">
     <p class="year">Building</p>
     <div><h2>Room to grow.</h2>
     <p>As the family grew, so did the vision, and the church built a home of its own.</p></div>
-    <div class="chap-gallery">{img('frame', 'The church building frame going up', 1000)}{img('bensch_family', 'A church family in the early years', 700)}{img('building', 'The church building today', 700)}</div>
+    <div class="chap-gallery">{img('frame', 'The church building frame going up', 1000)}{img('gathering', 'Gathering on the land in the early years', 700)}</div>
   </article>
   <article class="chapter reveal">
     <p class="year">Today</p>

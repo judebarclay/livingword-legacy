@@ -155,6 +155,7 @@ html.is-live main { padding-top: 104px; }
 .phero h1 { margin-bottom: 24px; }
 .phero-media { margin: clamp(32px, 5vw, 56px) var(--gutter) 0; border-radius: var(--radius); overflow: hidden; aspect-ratio: 2/1; }
 .phero-media img { width: 100%; height: 100%; object-fit: cover; }
+html[data-brand="livingword"] .phero-media.wide { aspect-ratio: 4/3; max-width: 1100px; margin-left: auto; margin-right: auto; }
 .simple-hero, .watch-hero { padding-top: clamp(40px, 6vw, 80px); padding-bottom: 20px; }
 .simple-hero h1, .watch-hero h1 { margin-bottom: 24px; }
 .simple-hero h1 .caps, .watch-hero h1 .caps { font-size: clamp(44px, 9.6vw, 140px); }
@@ -312,13 +313,13 @@ html[data-brand="legacy"] .chapter .year { font: italic 400 30px/1 var(--serif);
 html[data-brand="legacy"] .chapter h2 { letter-spacing: -0.015em; }
 .chapter p:not(.year) { color: var(--mute); font-size: 19px; }
 .chapter { grid-template-columns: 160px 1fr 460px; }
-.chap-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.chap-gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: calc(var(--radius) * .5); }
+.chap-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; border-radius: calc(var(--radius) * .6); overflow: hidden; }
+.chap-gallery img { width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; }
 .chap-gallery img:first-child { grid-column: 1 / -1; aspect-ratio: 4/3; }
 .chap-gallery:has(> img:nth-child(2):last-child) img:first-child { grid-column: auto; aspect-ratio: 3/4; }
 .chap-gallery:has(> img:nth-child(2):last-child) img { aspect-ratio: 3/4; }
-.collage { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: clamp(32px, 5vw, 56px) var(--gutter) 0; }
-.collage img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: calc(var(--radius) * .6); }
+.collage { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: clamp(32px, 5vw, 56px) var(--gutter) 0; border-radius: var(--radius); overflow: hidden; }
+.collage img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
 html[data-brand="legacy"] .collage { margin-top: 0; }
 
 /* ---------- gallery / duo ---------- */
@@ -479,6 +480,7 @@ html[data-brand="legacy"] body:has(.phero) .nav:not(.scrolled), html[data-brand=
   .wm-lw i { font-size: 22px; }
   .hero-media { aspect-ratio: 4/5; }
   .phero-media { aspect-ratio: 4/5; }
+  html[data-brand="livingword"] .phero-media.wide { aspect-ratio: 4/3; }
   .quick { grid-template-columns: 1fr 1fr; }
   .quick a { border-right: 0; border-top: 1px solid var(--line); padding-left: 0; }
   .quick a:last-child { grid-column: 1 / -1; }
@@ -496,7 +498,7 @@ html[data-brand="legacy"] body:has(.phero) .nav:not(.scrolled), html[data-brand=
   .expect-grid { grid-template-columns: 1fr; gap: 24px; }
   .path { grid-template-columns: 1fr; }
   .chapter { grid-template-columns: 1fr; }
-  .collage { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .collage { grid-template-columns: 1fr 1fr; gap: 4px; }
   .foot-cols { grid-template-columns: 1fr 1fr; }
   .menu-inner { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
   .app-phone { display: none; }
