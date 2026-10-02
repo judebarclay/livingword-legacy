@@ -70,6 +70,8 @@ IMG = {
     "cali": "file_d86c4a5bd7dd4a759a58d2ca21f243fe/2025-06-12T23:49:41.348Z/Cali_MTB_Preaching_1__5_-2.jpg",
     # Mark T. Barclay on stage with WELCOME on the screen, cropped in around him
     "grandpa_welcome": "file_2c3af27266584ac59f76d542b9ef1aa2/2025-06-13T00:22:55.665Z/IMG_3248.jpg&cx=0&cy=880&cw=3280&ch=2460&precrop",
+    "worship": "file_ca840e5be91549a6a720ae7835ff1242/2024-11-28T23:25:07.969Z/Untitled-1931.jpg",
+    "grandpa_cross": "file_6b4abba78aa54f928991a6b8319b7a8e/2025-06-13T18:46:22.411Z/0F7A8531-2.jpg",
     "baptism_practice": "file_f5ab36f40d32454ba092768e9c58b24e/2025-06-13T00:00:23.831Z/SMTI_Baptism_Practice_1.jpg",
     "bensch_family": "file_75ae3a4e8f454fd2bce13f5be6f29e6d/2025-06-13T00:00:32.270Z/Ray_Bensch___Family_1.jpg",
     "seminar": "file_7cd9df32e3894236bbc79069393bf2ee/2025-06-13T00:00:39.967Z/MTB_Teaching_SMTI_H._S._Seminar__2.jpg",
@@ -532,7 +534,7 @@ PAGES["plan-a-visit"] = ("Plan a Visit", "Service times, directions, kids, parki
 
 # ---------------------------------------------------------------- next steps
 PAGES["next-steps"] = ("Next Steps", "Connect, get baptized, join the membership class, get prayer and start serving.", f"""
-{phero('Next steps', 'Take your', 'next step.', 'Wherever you are with God, there\'s a next step for you here.', 'grandpa_welcome', 'Mark T. Barclay on stage with WELCOME on the screen', wide=True)}
+{phero('Next steps', 'Take your', 'next step.', 'Wherever you are with God, there\'s a next step for you here.', 'worship', 'The church worshipping with hands raised', wide=True)}
 
 <section class="wrap">
   <div class="cards">
@@ -656,11 +658,10 @@ PAGES["our-story"] = ("Our Story", "Living Word Church was planted in Midland, M
     <h1><span class="caps">God is</span> <em>faithful.</em></h1>
     <p class="lede">From a small rented hall to a home of our own, this is the story of what God has done since 1981.</p>
   </div>
-  <div class="collage reveal">
-    {img('cali', 'Preaching in California in the early years', 900, eager=True)}
-    {img('lake', 'A lake baptism in 1980', 900, eager=True)}
-    {img('dedication', 'The congregation at the 1981 church dedication', 900, eager=True)}
-    {img('frame', 'The church building frame going up', 900, eager=True)}
+  <div class="collage three reveal">
+    {img('grandpa_cross', 'Mark T. Barclay on stage today', 900, eager=True)}
+    {img('hands', 'Worship on a Sunday', 900, eager=True)}
+    {img('missions', 'Our missions team', 900, eager=True)}
   </div>
 </section>
 
@@ -693,7 +694,7 @@ PAGES["our-story"] = ("Our Story", "Living Word Church was planted in Midland, M
     <p class="year">Today</p>
     <div><h2>Who we are today.</h2>
     <p>Today {NAME} is a Spirit-filled, non-denominational Word of Faith church with ministry for every age, from infants through high school, young adults and beyond.</p></div>
-    <div class="chap-gallery">{img('crowd', 'A Sunday service today', 1000)}{img('kneel', 'Praying at the altar', 700)}{img('baptism', 'A baptism today', 700)}</div>
+    <div class="chap-gallery">{img('crowd', 'A Sunday service today', 1000)}{img('kneel', 'Praying at the altar', 700)}{img('prayer', 'Praying together', 700)}</div>
   </article>
 </section>
 
