@@ -311,8 +311,15 @@ html[data-brand="legacy"] .chapter .year { font: italic 400 30px/1 var(--serif);
 .chapter h2 { font: var(--display-weight) clamp(30px, 3.8vw, 52px)/1.02 var(--display); letter-spacing: -0.04em; margin-bottom: 18px; }
 html[data-brand="legacy"] .chapter h2 { letter-spacing: -0.015em; }
 .chapter p:not(.year) { color: var(--mute); font-size: 19px; }
-.chapter figure { margin: 0; border-radius: calc(var(--radius) * .6); overflow: hidden; aspect-ratio: 4/5; }
-.chapter figure img { width: 100%; height: 100%; object-fit: cover; }
+.chapter { grid-template-columns: 160px 1fr 460px; }
+.chap-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.chap-gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: calc(var(--radius) * .5); }
+.chap-gallery img:first-child { grid-column: 1 / -1; aspect-ratio: 4/3; }
+.chap-gallery:has(> img:nth-child(2):last-child) img:first-child { grid-column: auto; aspect-ratio: 3/4; }
+.chap-gallery:has(> img:nth-child(2):last-child) img { aspect-ratio: 3/4; }
+.collage { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: clamp(32px, 5vw, 56px) var(--gutter) 0; }
+.collage img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: calc(var(--radius) * .6); }
+html[data-brand="legacy"] .collage { margin-top: 0; }
 
 /* ---------- gallery / duo ---------- */
 .gallery { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 16px; }
@@ -459,7 +466,7 @@ html[data-brand="legacy"] body:has(.phero) .nav:not(.scrolled), html[data-brand=
   .path { grid-template-columns: repeat(2, 1fr); column-gap: 24px; }
   .expect-grid { grid-template-columns: repeat(2, 1fr); }
   .foot-cols { grid-template-columns: repeat(3, 1fr); row-gap: 32px; }
-  .chapter { grid-template-columns: 1fr 260px; }
+  .chapter { grid-template-columns: 1fr 340px; }
   .chapter .year { grid-column: 1 / -1; }
   .values { grid-template-columns: repeat(2, 1fr); }
 }
@@ -489,7 +496,7 @@ html[data-brand="legacy"] body:has(.phero) .nav:not(.scrolled), html[data-brand=
   .expect-grid { grid-template-columns: 1fr; gap: 24px; }
   .path { grid-template-columns: 1fr; }
   .chapter { grid-template-columns: 1fr; }
-  .chapter figure { aspect-ratio: 4/3; }
+  .collage { grid-template-columns: 1fr 1fr; gap: 8px; }
   .foot-cols { grid-template-columns: 1fr 1fr; }
   .menu-inner { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
   .app-phone { display: none; }
