@@ -120,13 +120,13 @@ def a(href, label, cls="btn"):
 BRAND = {"key": "livingword"}
 SITES = {
     "livingword": {"name": "Living Word Church", "tagline": "Experience Jesus", "og": "hands"},
-    "legacy": {"name": "Legacy Church", "tagline": "Faith for generations.", "og": "smoke"},
+    "legacy": {"name": "Legacy Church", "tagline": "Faith for generations.", "og": "hands"},
 }
 
 
 def wordmark():
     if BRAND["key"] == "legacy":
-        return '<span class="wm wm-lg"><b>Legacy</b> <small>Church</small></span>'
+        return '<span class="wm wm-lw"><b>Legacy</b> <i>Church</i></span>'
     return '<span class="wm wm-lw"><b>Living Word</b> <i>Church</i></span>'
 
 
@@ -138,7 +138,7 @@ def layout(slug, title, desc, body):
         "".join(f'<a href="{h}">{t}</a>' for h, t in items) + "</div>" for g, items in MENU)
     site = SITES[BRAND["key"]]
     return f"""<!doctype html>
-<html lang="en" data-brand="{BRAND['key']}">
+<html lang="en" data-brand="livingword" data-site="{BRAND['key']}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -878,12 +878,29 @@ PAGES["young-adults"] = ("Young Adults", "The Living Room: young adults at Livin
 """)
 
 
+# Legacy is the same site as Living Word with its ministries renamed
+# (Jude, 2026-10-05). New branding and leadership come later.
+LEGACY_NAMES = [
+    ('<span class="caps">Experience</span><em>Jesus.</em>', '<span class="caps">Faith for</span><em>generations.</em>'),
+    ('<span class="caps">Life</span> <em>Youth.</em>', '<span class="caps">Legacy</span> <em>Youth.</em>'),
+    ("Living Word Church", "Legacy Church"),
+    ("Life Kids", "Legacy Kids"),
+    ("Life Youth", "Legacy Youth"),
+    ("Young Adults", "Legacy Young Adults"),
+]
+
+
 def for_brand(html_text, key):
-    """Drop the other brand's blocks and bake in this brand's name."""
-    other = "lw" if key == "legacy" else "lg"
-    html_text = re.sub(r'<div class="%s-only">\n.*?\n</div>\n' % other, "", html_text, flags=re.S)
-    html_text = re.sub(r'<section class="([^"]*) %s-only">.*?</section>\n' % other, "", html_text, flags=re.S)
-    return html_text.replace(NAME, SITES[key]["name"])
+    """Drop the old dark-Legacy blocks and bake in this site's names."""
+    html_text = re.sub(r'<div class="lg-only">\n.*?\n</div>\n', "", html_text, flags=re.S)
+    html_text = re.sub(r'<section class="([^"]*) lg-only">.*?</section>\n', "", html_text, flags=re.S)
+    html_text = html_text.replace(NAME, SITES[key]["name"])
+    if key == "legacy":
+        html_text = html_text.replace("Formerly Living Word Church", "\0FORMERLY\0")
+        for old, new in LEGACY_NAMES:
+            html_text = html_text.replace(old, new)
+        html_text = html_text.replace("\0FORMERLY\0", "Formerly Living Word Church")
+    return html_text
 
 
 def main():
@@ -893,7 +910,6 @@ def main():
         shutil.rmtree(out, ignore_errors=True)
         shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(out, "assets"))
         for slug, (title, desc, body) in PAGES.items():
-            desc = desc.replace("Living Word Church", SITES[key]["name"])
             with open(os.path.join(out, slug + ".html"), "w") as f:
                 f.write(for_brand(layout(slug, title, desc, body), key))
         print("built", key, len(PAGES), "pages")
