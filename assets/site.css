@@ -20,6 +20,17 @@
   --wrap: 1240px;
   --gutter: clamp(16px, 4vw, 40px);
 }
+/* Legacy (2026-10-06): same design as Living Word, inverted to white on black. */
+html[data-site="legacy"] {
+  --bg: #000000;
+  --ink: #ffffff;
+  --mute: #9a9aa0;
+  --soft: #111111;
+  --line: #262626;
+  --card: #121212;
+  --inv-bg: #141414;
+  --inv-ink: #ffffff;
+}
 html[data-brand="legacy"] {
   --bg: #000000;
   --ink: #f2f0ec;

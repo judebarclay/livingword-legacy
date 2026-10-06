@@ -880,6 +880,59 @@ PAGES["young-adults"] = ("Young Adults", "The Living Room: young adults at Livin
 
 # Legacy is the same site as Living Word with its ministries renamed
 # (Jude, 2026-10-05). New branding and leadership come later.
+# Legacy moves away from the old name and history: no Living Word mentions,
+# no photos of Mark T. Barclay, younger faces (Jude, 2026-10-06).
+LEGACY_IMG = {
+    "grandpa_welcome": ("smoke", "Worship night at Legacy Church"),
+    "prayer": ("youth_braid", "A student worshipping with hands raised"),
+    "dedication": ("crowd", "A Sunday service"),
+    "baptism": ("kneel", "Praying at the altar"),
+    "worship": ("crowd", "The church worshipping together"),
+}
+
+LEGACY_STORY = f"""
+<section class="phero">
+  <div class="phero-text wrap">
+    <p class="eyebrow">Our story</p>
+    <h1><span class="caps">Thank</span> <em>you.</em></h1>
+    <p class="lede">To everyone who has prayed, served, given and worshipped in this house over the years: thank you. Every life touched and every step of faith is part of what God has done here, and He is not finished.</p>
+  </div>
+  <div class="collage three reveal">
+    {img('youth_mic', 'A student leading worship', 900, eager=True)}
+    {img('ya', 'Young adults worshipping', 900, eager=True)}
+    {img('kids', 'A child worshipping', 900, eager=True)}
+  </div>
+</section>
+
+<section class="wrap split reveal">
+  <div>
+    <p class="eyebrow">A new chapter</p>
+    <h2>Faith for generations.</h2>
+    <p>Legacy Church is a Spirit-filled, non-denominational church in Midland with ministry for every age, from infants through high school, young adults and beyond. Same Word, a new generation filling the room.</p>
+    {a('plan-a-visit.html', 'Plan a visit', 'btn btn-solid')}
+  </div>
+  <figure>{img('youth_circle', 'A Legacy Youth small group', 1600)}</figure>
+</section>
+
+<section class="wrap more-links">
+  <p class="eyebrow">More about us</p>
+  <div class="step-list">
+    <a href="leadership.html"><span>Leadership</span>{{ICON_ARROW}}</a>
+    <a href="new-here.html"><span>Values and beliefs</span>{{ICON_ARROW}}</a>
+  </div>
+</section>
+"""
+
+LEGACY_TEXT = [
+    ("Midland, Michigan · Since 1981", "Midland, Michigan"),
+    ("Four decades of faith in Midland.", "Thank you for every year."),
+    ("{name} was planted in 1981. Same Word, same Spirit, a new generation filling the room.",
+     "To everyone who prayed, served and worshipped here: thank you. Same Word, a new generation filling the room."),
+    (" Formerly Living Word Church.", ""),
+    ("the BASE app", "the Legacy App"), ("The BASE app", "The Legacy App"), ("BASE app", "Legacy App"),
+    ("<span>BASE</span>", "<span>LEGACY</span>"), ("YouTube and BASE", "YouTube and the Legacy App"),
+]
+
 LEGACY_NAMES = [
     ('<span class="caps">Experience</span><em>Jesus.</em>', '<span class="caps">Faith for</span><em>generations.</em>'),
     ('<span class="caps">Life</span> <em>Youth.</em>', '<span class="caps">Legacy</span> <em>Youth.</em>'),
@@ -896,11 +949,22 @@ def for_brand(html_text, key):
     html_text = re.sub(r'<section class="([^"]*) lg-only">.*?</section>\n', "", html_text, flags=re.S)
     html_text = html_text.replace(NAME, SITES[key]["name"])
     if key == "legacy":
-        html_text = html_text.replace("Formerly Living Word Church", "\0FORMERLY\0")
+        for old, new in LEGACY_TEXT:
+            html_text = html_text.replace(old.replace("{name}", SITES[key]["name"]), new)
         for old, new in LEGACY_NAMES:
             html_text = html_text.replace(old, new)
-        html_text = html_text.replace("\0FORMERLY\0", "Formerly Living Word Church")
+        html_text = re.sub(r'<img [^>]*>', legacy_img, html_text)
     return html_text
+
+
+def legacy_img(m):
+    tag = m.group(0)
+    for old, (new, alt) in LEGACY_IMG.items():
+        path = IMG[old]
+        if path in tag:
+            tag = tag.replace(path, IMG[new])
+            return re.sub(r'alt="[^"]*"', f'alt="{alt}"', tag)
+    return tag
 
 
 def main():
@@ -910,6 +974,8 @@ def main():
         shutil.rmtree(out, ignore_errors=True)
         shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(out, "assets"))
         for slug, (title, desc, body) in PAGES.items():
+            if key == "legacy" and slug == "our-story":
+                desc, body = "Thank you to everyone who has been part of this church family.", LEGACY_STORY.replace("{ICON_ARROW}", ICON_ARROW)
             with open(os.path.join(out, slug + ".html"), "w") as f:
                 f.write(for_brand(layout(slug, title, desc, body), key))
         print("built", key, len(PAGES), "pages")
