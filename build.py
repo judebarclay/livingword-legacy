@@ -76,6 +76,19 @@ IMG = {
     "bensch_family": "file_75ae3a4e8f454fd2bce13f5be6f29e6d/2025-06-13T00:00:32.270Z/Ray_Bensch___Family_1.jpg",
     "seminar": "file_7cd9df32e3894236bbc79069393bf2ee/2025-06-13T00:00:39.967Z/MTB_Teaching_SMTI_H._S._Seminar__2.jpg",
     "gathering": "file_9c0d5454e7cc45b9b2ce6baf12d470e8/2025-06-12T23:52:04.123Z/Misc._1.jpg",
+    # an older woman in the congregation smiling with a mic
+    "elder_mic": "file_e3620b523b2c4141b1c61ce460c05fdb/2025-06-13T00:23:36.411Z/7Y4A0823.jpg",
+}
+
+# Jude's own photos of Josh Barclay, resized and kept in the repo (assets/photos)
+LOCAL = {
+    "josh_preach": "assets/photos/josh-preach.jpg",
+    "josh_pulpit": "assets/photos/josh-pulpit.jpg",
+    "josh_pray": "assets/photos/josh-pray.jpg",
+    "josh_conference": "assets/photos/josh-conference.jpg",
+    "josh_smile": "assets/photos/josh-smile.jpg",
+    "josh_worship": "assets/photos/josh-worship.jpg",
+    "josh_christmas": "assets/photos/josh-christmas.jpg",
 }
 
 
@@ -84,10 +97,14 @@ def src(key, w=1600):
 
 
 def img(key, alt, w=1600, cls="", pos=None, eager=False):
-    srcset = ", ".join(f"{src(key, x)} {x}w" for x in (800, 1600, 2400) if x <= max(w, 800) * 1.5)
     style = f' style="object-position:{pos}"' if pos else ""
     loading = 'fetchpriority="high"' if eager else 'loading="lazy"'
     c = f' class="{cls}"' if cls else ""
+    if key in LOCAL and not os.path.exists(os.path.join(ROOT, LOCAL[key])):
+        key = "youth_circle"  # photo not committed yet
+    if key in LOCAL:
+        return f'<img{c} src="{LOCAL[key]}" alt="{html.escape(alt)}" {loading} decoding="async"{style}>'
+    srcset = ", ".join(f"{src(key, x)} {x}w" for x in (800, 1600, 2400) if x <= max(w, 800) * 1.5)
     return (f'<img{c} src="{src(key, w)}" srcset="{srcset}" sizes="100vw" alt="{html.escape(alt)}" '
             f'{loading} decoding="async"{style}>')
 
@@ -887,7 +904,14 @@ LEGACY_IMG = {
     "prayer": ("youth_braid", "A student worshipping with hands raised"),
     "dedication": ("crowd", "A Sunday service"),
     "baptism": ("kneel", "Praying at the altar"),
-    "worship": ("crowd", "The church worshipping together"),
+}
+
+# Per-page swaps that bring Josh Barclay forward on Legacy: (page, old key) -> (new key, alt)
+LEGACY_PAGE_IMG = {
+    ("index", "grandpa_welcome"): ("josh_preach", "Josh Barclay preaching on a Sunday"),
+    ("watch", "hands"): ("josh_conference", "Josh Barclay preaching"),
+    ("prayer", "kneel"): ("josh_pray", "Josh Barclay praying with the church"),
+    ("new-here", "crowd"): ("josh_smile", "Josh Barclay welcoming everyone on a Sunday"),
 }
 
 LEGACY_STORY = f"""
@@ -899,7 +923,7 @@ LEGACY_STORY = f"""
   </div>
   <div class="collage three reveal">
     {img('youth_mic', 'A student leading worship', 900, eager=True)}
-    {img('ya', 'Young adults worshipping', 900, eager=True)}
+    {img('elder_mic', 'A longtime member sharing with the church', 900, eager=True)}
     {img('kids', 'A child worshipping', 900, eager=True)}
   </div>
 </section>
@@ -911,7 +935,7 @@ LEGACY_STORY = f"""
     <p>Legacy Church is a Spirit-filled, non-denominational church in Midland with ministry for every age, from infants through high school, young adults and beyond. Same Word, a new generation filling the room.</p>
     {a('plan-a-visit.html', 'Plan a visit', 'btn btn-solid')}
   </div>
-  <figure>{img('youth_circle', 'A Legacy Youth small group', 1600)}</figure>
+  <figure>{img('josh_pulpit', 'Josh Barclay preaching', 1600)}</figure>
 </section>
 
 <section class="wrap more-links">
@@ -943,7 +967,7 @@ LEGACY_NAMES = [
 ]
 
 
-def for_brand(html_text, key):
+def for_brand(html_text, key, slug=""):
     """Drop the old dark-Legacy blocks and bake in this site's names."""
     html_text = re.sub(r'<div class="lg-only">\n.*?\n</div>\n', "", html_text, flags=re.S)
     html_text = re.sub(r'<section class="([^"]*) lg-only">.*?</section>\n', "", html_text, flags=re.S)
@@ -953,12 +977,20 @@ def for_brand(html_text, key):
             html_text = html_text.replace(old.replace("{name}", SITES[key]["name"]), new)
         for old, new in LEGACY_NAMES:
             html_text = html_text.replace(old, new)
-        html_text = re.sub(r'<img [^>]*>', legacy_img, html_text)
+        done = set()
+        html_text = re.sub(r'<img [^>]*>', lambda m: legacy_img(m, slug, done), html_text)
     return html_text
 
 
-def legacy_img(m):
+def legacy_img(m, slug, done):
+    """Swap one photo for its Legacy version; page swaps apply to the first match only."""
     tag = m.group(0)
+    for (page, old), (new, alt) in LEGACY_PAGE_IMG.items():
+        if (page == slug and IMG[old] in tag and (page, old) not in done
+                and os.path.exists(os.path.join(ROOT, LOCAL[new]))):
+            done.add((page, old))
+            tag = re.sub(r'\s(src|srcset|sizes)="[^"]*"', '', tag)
+            return re.sub(r'alt="[^"]*"', f'src="{LOCAL[new]}" alt="{alt}"', tag)
     for old, (new, alt) in LEGACY_IMG.items():
         path = IMG[old]
         if path in tag:
@@ -977,7 +1009,7 @@ def main():
             if key == "legacy" and slug == "our-story":
                 desc, body = "Thank you to everyone who has been part of this church family.", LEGACY_STORY.replace("{ICON_ARROW}", ICON_ARROW)
             with open(os.path.join(out, slug + ".html"), "w") as f:
-                f.write(for_brand(layout(slug, title, desc, body), key))
+                f.write(for_brand(layout(slug, title, desc, body), key, slug))
         print("built", key, len(PAGES), "pages")
 
 
