@@ -1,0 +1,220 @@
+/* ==========================================================
+   Legacy Church (2026-10-12): its own layout, built around
+   visitors and church members. Loaded after site.css.
+   One font (Inter Tight), two weights (400/700), black, white, one grey.
+   Spacing: 8 / 16 / 24 / 48 / 96. One button, one row, one photo style.
+   ========================================================== */
+body.lx { --r: 20px; --grey: #8e8e93; --pad: clamp(48px, 8vw, 96px); font-size: 17px; }
+.lx h1, .lx h2, .lx h3 { font-family: var(--sans); font-weight: 700; letter-spacing: -0.035em; }
+.lx .eyebrow { letter-spacing: .06em; font-size: 13px; color: var(--grey); }
+.lx-mute, .lx .lede { color: var(--grey); }
+.lx-mute a { color: var(--ink); }
+.lx section { margin-bottom: var(--pad); }
+.lx .btn { border-color: rgba(255,255,255,.35); }
+.lx .btn:hover { border-color: #fff; }
+.lx .btn-solid { border-color: #fff; }
+
+/* wordmark */
+.lx-wm { font: 700 20px/1 var(--sans); letter-spacing: -0.04em; text-transform: uppercase; }
+.lx-wm span { font-weight: 400; color: var(--grey); margin-left: 5px; letter-spacing: -0.02em; text-transform: none; }
+
+/* nav */
+.lx .links { gap: 28px; }
+.lx .links a { font-size: 14px; }
+.lx.p-index .nav:not(.scrolled) { background: linear-gradient(rgba(0,0,0,.45), transparent); }
+.lx .burger { display: none; }
+
+/* menu (phones) */
+.lx-menu { padding-top: 96px; }
+.lx-menu-links { display: flex; flex-direction: column; }
+.lx-menu-links a { font: 700 clamp(34px, 9vw, 52px)/1.12 var(--sans); letter-spacing: -0.04em; text-decoration: none; padding: 4px 0; }
+.lx-menu-foot { color: var(--grey); font-size: 15px; margin-top: 48px; }
+.lx-menu-foot p { margin: 0 0 4px; }
+
+/* home hero: one photo, full screen, answer up front */
+.lx-hero { position: relative; margin-top: -64px; height: 100vh; height: 100svh; min-height: 600px; max-height: 1100px; display: flex; align-items: flex-end; color: #fff; }
+html.is-live .lx-hero { margin-top: -104px; }
+.lx-hero figure { position: absolute; inset: 0; margin: 0; }
+.lx-hero figure img { width: 100%; height: 100%; object-fit: cover; }
+.lx-hero figure::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.25) 50%, rgba(0,0,0,0) 75%); }
+.lx-hero-text { position: relative; z-index: 1; padding-bottom: clamp(48px, 8vh, 96px); }
+.lx-hero h1 { font-size: clamp(56px, 10.5vw, 168px); line-height: .9; letter-spacing: -0.055em; max-width: 11ch; }
+.lx-hero-info { margin: 24px 0 0; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.45; color: rgba(255,255,255,.8); }
+.lx-hero .btns { margin-top: 24px; }
+
+/* two doors: new here / church family */
+.lx-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.lx-door { position: relative; display: block; aspect-ratio: 4/5; max-height: 720px; width: 100%; border-radius: var(--r); overflow: hidden; color: #fff; text-decoration: none; background: #111; }
+.lx-door img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+.lx-door:hover img { transform: scale(1.03); }
+.lx-door::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0) 60%); }
+.lx-door div { position: absolute; z-index: 1; left: clamp(24px, 3vw, 40px); right: clamp(24px, 3vw, 40px); bottom: clamp(24px, 3vw, 40px); }
+.lx-door .eyebrow { color: rgba(255,255,255,.7); margin-bottom: 8px; }
+.lx-door h2 { font-size: clamp(32px, 3.6vw, 52px); line-height: 1; margin-bottom: 12px; }
+.lx-door p:not(.eyebrow) { color: rgba(255,255,255,.75); max-width: 380px; margin-bottom: 16px; }
+
+/* section heads */
+.lx-sec { margin-bottom: 48px; max-width: 760px; }
+.lx-sec h2, .lx-split h2, .lx-band h2, .lx-end h2, .lx-min h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1; }
+.lx-split h2, .lx-min h2 { margin-bottom: 16px; }
+
+/* page heads */
+.lx-head { padding-top: clamp(48px, 8vw, 112px); }
+.lx-head h1 { font-size: clamp(52px, 9vw, 132px); line-height: .92; letter-spacing: -0.055em; margin-bottom: 24px; }
+.lx .lx-head { margin-bottom: 48px; }
+
+/* split: text + photo or schedule */
+.lx-split { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+.lx-photo { margin: 0; border-radius: var(--r); overflow: hidden; aspect-ratio: 4/5; background: #111; }
+.lx-photo img { width: 100%; height: 100%; object-fit: cover; }
+.lx-split > .lx-photo:first-child { aspect-ratio: 4/3; }
+
+/* weekly schedule */
+.lx-week { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.lx-week li { display: grid; grid-template-columns: 110px 120px 1fr; gap: 16px; align-items: baseline; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.lx-day { color: var(--grey); font-size: 15px; }
+.lx-time { font: 700 clamp(26px, 2.6vw, 34px)/1 var(--sans); letter-spacing: -0.04em; }
+.lx-what { font-weight: 600; }
+.lx-what small { display: block; font-weight: 400; color: var(--grey); font-size: 15px; margin-top: 2px; }
+
+/* full-width photo */
+.lx-wide { margin: 0 var(--gutter) var(--pad); border-radius: var(--r); overflow: hidden; aspect-ratio: 21/9; background: #111; }
+.lx-wide img { width: 100%; height: 100%; object-fit: cover; }
+
+/* big statement */
+.lx-statement h2 { font-size: clamp(32px, 4.6vw, 64px); line-height: 1.05; max-width: 1080px; }
+.lx-statement h2 span { color: var(--grey); }
+
+/* ministry tiles */
+.lx-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.lx-tile { position: relative; display: block; aspect-ratio: 3/4; border-radius: var(--r); overflow: hidden; color: #fff; text-decoration: none; background: #111; }
+.lx-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+.lx-tile:hover img { transform: scale(1.03); }
+.lx-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.8), rgba(0,0,0,0) 55%); }
+.lx-tile div { position: absolute; z-index: 1; left: 24px; right: 24px; bottom: 24px; }
+.lx-tile h3 { font-size: clamp(24px, 2.4vw, 32px); line-height: 1.05; margin-bottom: 8px; }
+.lx-tile p { margin: 0; color: rgba(255,255,255,.75); font-size: 15px; }
+
+/* band: app, give */
+.lx-band { background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: var(--pad) 0; }
+.lx-band-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: end; }
+.lx-band h2 { margin-bottom: 16px; }
+.lx-band .lx-mute { margin: 0; font-size: 19px; }
+.lx-band .btns { justify-content: flex-end; margin: 0; }
+
+/* visit facts */
+.lx-facts { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.lx .lx-facts { margin-bottom: 48px; }
+.lx-facts > div { padding: 24px 24px 24px 0; }
+.lx-facts > div + div { padding-left: 24px; border-left: 1px solid var(--line); }
+.lx-facts p:not(.eyebrow) { margin: 0; font-size: 19px; font-weight: 600; line-height: 1.35; }
+.lx-facts .eyebrow { margin-bottom: 8px; }
+
+/* numbered steps */
+.lx-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px 24px; }
+.lx-steps.three { grid-template-columns: repeat(3, 1fr); }
+.lx-steps li { border-top: 1px solid var(--line); padding-top: 24px; }
+.lx-steps span { display: block; color: var(--grey); font-size: 15px; margin-bottom: 24px; }
+.lx-steps h3 { font-size: 26px; margin-bottom: 8px; }
+.lx-steps p { color: var(--grey); margin: 0; }
+.lx-steps .lx-ref { color: var(--ink); font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+.p-jesus .lx-steps { grid-template-columns: repeat(5, 1fr); }
+
+/* map */
+.lx-map { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: end; }
+.lx-map iframe { width: 100%; height: 420px; border: 0; border-radius: var(--r); filter: grayscale(1) invert(.92) contrast(.9); }
+.lx-map p:not(.eyebrow) { font-size: 22px; font-weight: 600; line-height: 1.3; }
+
+/* faq, beliefs */
+.lx .faq summary { font: 600 clamp(19px, 2vw, 24px)/1.25 var(--sans); letter-spacing: -0.02em; }
+
+/* closing */
+.lx-end { text-align: center; max-width: 760px; }
+.lx-end p { font-size: 19px; margin-top: 16px; }
+
+/* watch */
+.lx-player { aspect-ratio: 16/9; }
+.lx-player .video-label { position: absolute; left: 24px; bottom: 20px; font-weight: 600; }
+
+/* action rows: the one list style */
+.lx-list { border-top: 1px solid var(--line); }
+.lx-row { display: grid; grid-template-columns: minmax(180px, 1fr) 1.4fr 24px; gap: 24px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: inherit; }
+.lx-row-t { font: 700 clamp(24px, 3vw, 38px)/1.05 var(--sans); letter-spacing: -0.04em; }
+.lx-row-n { color: var(--grey); }
+.lx-row .i { width: 20px; height: 20px; justify-self: end; transition: transform .25s; }
+a.lx-row:hover .i { transform: translateX(4px); }
+a.lx-row:hover .lx-row-t { opacity: .7; }
+
+/* ministries */
+.lx-min { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; scroll-margin-top: 80px; }
+.lx-min.flip > figure { order: 2; }
+.lx-dl { margin: 24px 0 0; border-top: 1px solid var(--line); }
+.lx-dl div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.lx-dl dt { color: var(--grey); }
+.lx-dl dd { margin: 0; font-weight: 600; }
+.lx-dl a { color: inherit; }
+.lx-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.lx-strip img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--r); }
+#prayer, #grow, #this-week, #leadership, #faq, #give { scroll-margin-top: 80px; }
+
+/* values */
+.lx-values { list-style: none; margin: 0; padding: 0; columns: 3 280px; column-gap: 48px; }
+.lx-values li { break-inside: avoid; padding: 16px 0; border-top: 1px solid var(--line); color: var(--grey); }
+.lx-values b { display: block; color: var(--ink); font-size: 19px; margin-bottom: 4px; }
+
+/* footer */
+.lx-foot { border-top: 1px solid var(--line); padding: var(--pad) 0 48px; }
+.lx-foot-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 24px; padding-bottom: 48px; }
+.lx-foot-top p:not(.eyebrow) { margin: 0; line-height: 1.5; }
+.lx-foot-top .lx-mute { margin-top: 8px; }
+.lx-foot a { text-decoration: none; }
+.lx-foot-links { display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.lx-foot-links a { color: var(--grey); font-size: 15px; }
+.lx-foot-links a:hover { color: var(--ink); }
+.lx-foot-base { color: var(--grey); font-size: 14px; margin: 24px 0 0; }
+
+/* phone dock */
+.lx-dock { display: none; }
+
+@media (max-width: 1000px) {
+  .lx .burger { display: grid; }
+  .lx-steps, .p-jesus .lx-steps { grid-template-columns: repeat(2, 1fr); }
+  .lx-facts { grid-template-columns: 1fr 1fr; }
+  .lx-facts > div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .lx-facts > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .lx-foot-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  body.lx { padding-bottom: 72px; }
+  .lx .nav-end .btn { display: none; }
+  .lx-hero { margin-top: -58px; height: 92svh; min-height: 560px; }
+  .lx-hero h1 { font-size: clamp(52px, 15vw, 80px); }
+  .lx-doors, .lx-split, .lx-min, .lx-tiles, .lx-band-grid, .lx-map, .lx-strip { grid-template-columns: 1fr; }
+  .lx-door { aspect-ratio: 4/5; }
+  .lx-min.flip > figure { order: 0; }
+  .lx-week li { grid-template-columns: 1fr 1.6fr; gap: 4px 16px; padding: 16px 0; }
+  .lx-day { grid-column: 1 / -1; font-size: 13px; }
+  .lx-time { font-size: 26px; }
+  .lx-wide { aspect-ratio: 4/3; }
+  .lx-tile { aspect-ratio: 4/3; }
+  .lx-band .btns { justify-content: flex-start; }
+  .lx-steps, .lx-steps.three, .p-jesus .lx-steps { grid-template-columns: 1fr; gap: 24px; }
+  .lx-steps span { margin-bottom: 8px; }
+  .lx-row { grid-template-columns: 1fr 20px; gap: 4px 16px; padding: 20px 0; }
+  .lx-row-t { font-size: 26px; }
+  .lx-row-n { grid-row: 2; font-size: 15px; }
+  .lx-row .i { grid-row: 1 / 3; grid-column: 2; }
+  .lx-map iframe { height: 300px; }
+  .lx-strip { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .lx-strip img { border-radius: 12px; }
+  .lx-dl div { grid-template-columns: 96px 1fr; }
+  .lx-foot-top { grid-template-columns: 1fr; gap: 24px; }
+  .lx-dock {
+    display: grid; grid-template-columns: repeat(4, 1fr); position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 40;
+    background: rgba(28,28,30,.86); backdrop-filter: saturate(180%) blur(18px); -webkit-backdrop-filter: saturate(180%) blur(18px);
+    border: 1px solid rgba(255,255,255,.1); border-radius: 18px; padding: 6px; padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+  .lx-dock a { text-align: center; text-decoration: none; font: 600 14px/1 var(--sans); padding: 14px 0; border-radius: 12px; color: rgba(255,255,255,.85); }
+  .lx-dock a:last-child { background: #fff; color: #000; }
+  html.menu-open .lx-dock, html.modal-open .lx-dock { display: none; }
+}

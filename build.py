@@ -999,12 +999,28 @@ def legacy_img(m, slug, done):
     return tag
 
 
+def build_legacy(out):
+    """Legacy has its own pages and layout (legacy.py); old addresses redirect."""
+    import legacy
+    pages = legacy.pages()
+    for slug, (title, desc, body) in pages.items():
+        with open(os.path.join(out, slug + ".html"), "w") as f:
+            f.write(legacy.layout(slug, title, desc, body))
+    for slug, target in legacy.REDIRECTS.items():
+        with open(os.path.join(out, slug + ".html"), "w") as f:
+            f.write(legacy.redirect(target))
+    print("built legacy", len(pages), "pages +", len(legacy.REDIRECTS), "redirects")
+
+
 def main():
     for key in SITES:
         BRAND["key"] = key
         out = os.path.join(ROOT, key)
         shutil.rmtree(out, ignore_errors=True)
         shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(out, "assets"))
+        if key == "legacy":
+            build_legacy(out)
+            continue
         for slug, (title, desc, body) in PAGES.items():
             if key == "legacy" and slug == "our-story":
                 desc, body = "Thank you to everyone who has been part of this church family.", LEGACY_STORY.replace("{ICON_ARROW}", ICON_ARROW)
