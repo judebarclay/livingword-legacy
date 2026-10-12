@@ -42,7 +42,7 @@ def pic(key, fallback, alt, w=1600, pos=None, eager=False):
 
 
 ALTS = {
-    "hands": "Hands raised in worship on a Sunday", "smoke": "A full room at a worship night",
+    "ya": "Young adults worshipping together", "youth_room": "Students worshipping at Legacy Youth",
     "crowd": "The church worshipping together", "kneel": "Praying at the altar",
     "youth_circle": "Students praying together", "worship": "The church worshipping with hands raised",
 }
@@ -111,7 +111,7 @@ def pages():
     # ------------------------------------------------------------ home
     P["index"] = ("Home", f"{NAME} in Midland, Michigan. {TIMES.replace('&amp;', 'and')}.", f"""
 <section class="lx-hero">
-  <figure>{img('smoke', 'A full room at a Legacy Church worship night', 2400, eager=True)}</figure>
+  <figure>{img('ya', 'Young adults worshipping at Legacy Church', 2400, eager=True)}</figure>
   <div class="lx-hero-text wrap">
     <h1>{TAGLINE}</h1>
     <p class="lx-hero-info">{TIMES}<br>{ADDR}</p>
@@ -121,12 +121,12 @@ def pages():
 
 <section class="lx-doors wrap">
   <a class="lx-door reveal" href="plan-a-visit.html">
-    {img('crowd', 'The church worshipping together on a Sunday', 1600)}
+    {img('youth_circle', 'Students praying together', 1600)}
     <div><p class="eyebrow">New here</p><h2>Plan your first Sunday.</h2>
     <p>Times, parking, what to expect and where the kids go.</p><span class="link">Start here{ICON_ARROW}</span></div>
   </a>
   <a class="lx-door reveal" href="family.html">
-    {img('elder_mic', 'A longtime member sharing with the church', 1600, pos='50% 30%')}
+    {img('worship', 'The church worshipping with hands raised', 1600)}
     <div><p class="eyebrow">Church family</p><h2>Everything for the week.</h2>
     <p>Give, events, prayer, the Legacy App and your next step.</p><span class="link">Open{ICON_ARROW}</span></div>
   </a>
@@ -142,7 +142,7 @@ def pages():
   {week()}
 </section>
 
-{wide(pic('josh_preach', 'hands', 'Josh Barclay preaching on a Sunday', 2400))}
+{wide(pic('josh_preach', 'youth_room', 'Josh Barclay preaching on a Sunday', 2400))}
 
 <section class="lx-statement wrap reveal">
   <h2>Worship, the Word, and room for God to move. <span>Every service streams live, so you never miss one.</span></h2>
@@ -178,7 +178,7 @@ def pages():
   <div><p class="eyebrow">Kids</p><p>Classes and nursery<br>every service</p></div>
 </section>
 
-{wide(pic('josh_smile', 'crowd', 'Josh Barclay welcoming everyone on a Sunday', 2400))}
+{wide(pic('josh_smile', 'youth_room', 'Josh Barclay welcoming everyone on a Sunday', 2400))}
 
 <section class="wrap">
   <header class="lx-sec"><p class="eyebrow">What to expect</p><h2>Your first Sunday.</h2></header>
@@ -222,7 +222,7 @@ def pages():
 {head('Watch', 'Watch live.', f'Every service streams live. {TIMES}.')}
 <section class="wrap">
   <button type="button" class="video-card lx-player" data-open-live aria-label="Open the live player">
-    {pic('josh_conference', 'hands', 'Josh Barclay preaching', 2400, eager=True)}
+    {pic('josh_worship', 'ya', 'Josh Barclay worshipping with the church', 2400, eager=True)}
     <span class="play" aria-hidden="true"></span>
     <span class="video-label"><span class="live-only"><span class="dot"></span><span data-live-name>Live now</span></span><span class="offline-only">Open the player</span></span>
   </button>
@@ -261,9 +261,9 @@ def pages():
   <div>
     <p class="eyebrow">Middle and high school</p>
     <h2>Legacy Youth</h2>
-    <p class="lx-mute">Worship, the Word and real friendships. Every year students also head to Invasion, our youth conference.</p>
+    <p class="lx-mute">Worship, the Word and real friendships.</p>
     <dl class="lx-dl"><div><dt>When</dt><dd>Sundays, 5:30 PM</dd></div><div><dt>Where</dt><dd>2010 N Stark Rd</dd></div></dl>
-    <div class="btns">{btn(L['connect'], 'Get connected', True)}{btn(L['invasion'], 'Invasion')}</div>
+    <div class="btns">{btn(L['connect'], 'Get connected', True)}</div>
   </div>
 </section>
 <section class="lx-strip wrap reveal">
@@ -305,7 +305,7 @@ def pages():
   {week()}
 </section>
 
-{wide(img('worship', 'The church worshipping with hands raised', 2400))}
+{wide(img('ya', 'Young adults worshipping together', 2400))}
 
 <section class="wrap" id="grow">
   <header class="lx-sec"><p class="eyebrow">Next steps</p><h2>Take your next step.</h2></header>
@@ -382,7 +382,7 @@ def pages():
 {head('About', 'Thank you.', 'To everyone who has prayed, served, given and worshipped in this house over the years: thank you. Every life touched and every step of faith is part of what God has done here, and He is not finished.')}
 <section class="lx-strip wrap reveal">
   {img('youth_mic', 'A student leading worship', 900, eager=True, pos='50% 25%')}
-  {img('elder_mic', 'A longtime member sharing with the church', 900, eager=True)}
+  {img('worship', 'The church worshipping together', 900, eager=True)}
   {img('kids', 'A child worshipping', 900, eager=True)}
 </section>
 
@@ -392,7 +392,7 @@ def pages():
     <h2>{TAGLINE}</h2>
     <p class="lx-mute">{NAME} is a Spirit-filled, non-denominational church in Midland with ministry for every age. Our mission is simple: love God, love others and share the good news.</p>
   </div>
-  <figure class="lx-photo">{pic('josh_pulpit', 'crowd', 'Josh Barclay preaching', 1600)}</figure>
+  <figure class="lx-photo">{pic('josh_pulpit', 'youth_circle', 'Josh Barclay preaching', 1600)}</figure>
 </section>
 
 <section class="wrap lx-faq">
@@ -434,7 +434,7 @@ def layout(slug, title, desc, body):
 <meta name="description" content="{html.escape(desc)}">
 <meta property="og:title" content="{title} · {NAME}">
 <meta property="og:description" content="{html.escape(desc)}">
-<meta property="og:image" content="{src('smoke', 1200)}">
+<meta property="og:image" content="{src('ya', 1200)}">
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
