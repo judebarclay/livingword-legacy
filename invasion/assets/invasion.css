@@ -115,7 +115,7 @@ h3{font-size:24px;letter-spacing:-.02em;line-height:1.1}
 
 /* team */
 .team{padding:clamp(96px,14vh,160px) 0;border-top:1px solid var(--line)}
-.team-hero img{width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:22px}
+.team-hero img{width:100%;aspect-ratio:21/9;object-fit:cover;object-position:50% 40%;border-radius:22px}
 .team-row{display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(32px,6vw,80px);align-items:center;margin-top:clamp(40px,6vh,64px)}
 .team-copy p{font-size:clamp(18px,2vw,21px);color:var(--muted);margin-top:22px;max-width:38ch}
 .team-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
