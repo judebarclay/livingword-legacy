@@ -18,6 +18,19 @@ var INVASION = {
     phone: "989-832-7547",
     give: "https://pushpay.com/g/marktbarclay?fnd=Invasion%20Youth%20%26%20Young%20Adults%20Conference"
   },
+  testimonies: [
+    { id: "onCNPrUt8Uw", clip: "test-glasses", q: "I came here wearing glasses, and I don't need them anymore." },
+    { id: "onCNPrUt8Uw", clip: "test-anxiety", q: "The morning of Invasion I got set free. I haven't had an anxiety attack since." },
+    { id: "onCNPrUt8Uw", clip: "test-chains", q: "Come to Invasion so God can break your chains and you can find His purpose for you." },
+    { id: "onCNPrUt8Uw", clip: "test-joy", q: "I got freed from a generational curse, and the Lord filled me with His joy." },
+    { id: "onCNPrUt8Uw", clip: "test-saved", q: "I gave my heart to Jesus, and today I got baptized." }
+  ],
+  moments: [
+    { id: "rE1CzPh3_bY", clip: "inv-wed-band", t: "Nightly worship", p: "Every night at 7 PM the whole room comes together." },
+    { id: "onCNPrUt8Uw", clip: "inv-fri-baptism", t: "Baptisms", p: "Young people going public with their faith." },
+    { id: "gTwzLdiZFq0", clip: "inv-rev-fri", t: "Encounter", p: "Every service ends with space to respond and meet God." },
+    { link: "https://instagram.com/invasionministries", clip: "inv-thu-sports", t: "Sports and tournaments", p: "Volleyball, basketball, eSports and more, with real trophies." }
+  ],
   videos: {
     "2026": [
       { id: "rE1CzPh3_bY", poster: "assets/clips/inv-wed.jpg", title: "Wednesday Night" },
@@ -104,60 +117,105 @@ var INVASION = {
     });
   }
 
-  // Video cards: local muted loop on hover, full YouTube video on click
+  // Video cards: the clip loops on the page; tapping plays the full video right there
+  var playIcon = '<span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
+  function embed(id, opts) {
+    return '<iframe src="https://www.youtube-nocookie.com/embed/' + id + "?rel=0&modestbranding=1&playsinline=1" + (opts || "&autoplay=1") +
+      '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Video"></iframe>';
+  }
+  function playIn(box, id) {
+    box.querySelectorAll("video").forEach(function (v) { v.pause(); });
+    box.innerHTML = embed(id);
+    box.classList.add("playing");
+  }
+  var loops = [];
+  function loopVideo(clip, poster) {
+    if (!clip) return '<img src="' + poster + '" alt="" loading="lazy">';
+    return '<video muted loop playsinline preload="none" poster="' + (poster || "assets/clips/" + clip + ".jpg") + '"><source src="assets/clips/' + clip + '.mp4" type="video/mp4"></video>';
+  }
   function card(v, big) {
     var a = document.createElement("a");
     a.className = "vcard" + (big ? " big" : "");
     a.href = "https://www.youtube.com/watch?v=" + v.id;
-    a.setAttribute("data-yt", v.id);
-    a.innerHTML =
-      '<div class="vthumb"><img src="' + (v.poster || "assets/clips/" + v.clip + ".jpg") + '" alt="" loading="lazy">' +
-      (v.clip ? '<video muted loop playsinline preload="none"><source src="assets/clips/' + v.clip + '.mp4" type="video/mp4"></video>' : "") +
-      '<span class="play" aria-hidden="true"></span></div>' +
+    a.innerHTML = '<div class="vthumb">' + loopVideo(v.clip, v.poster) + playIcon + '</div>' +
       '<div class="vmeta"><h3></h3>' + (v.where ? "<p></p>" : "") + "</div>";
     a.querySelector("h3").textContent = v.title;
     if (v.where) a.querySelector("p").textContent = v.where;
-    var vid = a.querySelector("video");
-    if (vid && !reduce) {
-      a.addEventListener("mouseenter", function () { vid.play().catch(function () {}); });
-      a.addEventListener("mouseleave", function () { vid.pause(); });
-    }
+    a.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey) return;
+      e.preventDefault();
+      playIn(a.querySelector(".vthumb"), v.id);
+    });
     return a;
   }
   document.querySelectorAll(".video-feature").forEach(function (box) {
-    var v = { id: box.dataset.video, clip: box.dataset.clip, poster: box.dataset.poster, title: box.dataset.title };
-    var c = card(v, true);
-    box.appendChild(c);
-    // Big feature cards play their loop whenever they're on screen
-    var vid = c.querySelector("video");
-    if (vid && !reduce && "IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) vid.play().catch(function () {}); else vid.pause(); });
-      }, { threshold: 0.4 }).observe(c);
-    }
+    var d = box.dataset;
+    box.appendChild(card({ id: d.video, clip: d.clip, poster: d.poster, title: d.title, where: d.where }, true));
   });
   document.querySelectorAll("[data-videos]").forEach(function (box) {
     (INVASION.videos[box.dataset.videos] || []).forEach(function (v) { box.appendChild(card(v)); });
   });
 
-  // Player modal
-  var player = document.querySelector("[data-player]");
-  if (player) {
-    var frame = player.querySelector("[data-player-frame]"), yt = player.querySelector("[data-player-yt]");
-    function close() { player.hidden = true; frame.innerHTML = ""; document.body.style.overflow = ""; }
-    document.addEventListener("click", function (e) {
-      var a = e.target.closest("[data-yt]");
-      if (!a || e.metaKey || e.ctrlKey) return;
+  // Testimonies: each card plays the testimony video in the player above
+  var tGrid = document.querySelector("[data-testimonies]");
+  if (tGrid) INVASION.testimonies.forEach(function (t) {
+    var a = document.createElement("a");
+    a.className = "tcard"; a.href = "https://www.youtube.com/watch?v=" + t.id + (t.at ? "&t=" + t.at + "s" : "");
+    a.innerHTML = '<div class="tvid">' + loopVideo(t.clip) + playIcon + '</div><p></p>';
+    a.querySelector("p").textContent = "“" + t.q + "”";
+    a.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey) return;
       e.preventDefault();
-      var id = a.getAttribute("data-yt");
-      frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Video"></iframe>';
-      yt.href = "https://www.youtube.com/watch?v=" + id;
-      player.hidden = false; document.body.style.overflow = "hidden";
+      var box = document.querySelector("#testi-player .vthumb");
+      box.innerHTML = embed(t.id, "&autoplay=1" + (t.at ? "&start=" + t.at : ""));
+      box.classList.add("playing");
+      box.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
     });
-    player.querySelector("[data-player-close]").addEventListener("click", close);
-    player.addEventListener("click", function (e) { if (e.target === player) close(); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !player.hidden) close(); });
+    tGrid.appendChild(a);
+  });
+
+  // Moments: looping tiles, each plays its video
+  var bento = document.querySelector("[data-moments]");
+  if (bento) INVASION.moments.forEach(function (m) {
+    var a = document.createElement("a");
+    a.className = "bento-item"; a.href = m.link || "https://www.youtube.com/watch?v=" + m.id;
+    a.innerHTML = loopVideo(m.clip) + '<span class="bento-in"><b></b><span></span></span>' + (m.id ? playIcon : "");
+    a.querySelector("b").textContent = m.t;
+    a.querySelector(".bento-in span").textContent = m.p;
+    if (m.id) a.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey) return;
+      e.preventDefault();
+      a.classList.add("playing");
+      a.innerHTML = embed(m.id);
+    });
+    else { a.target = "_blank"; a.rel = "noopener"; }
+    bento.appendChild(a);
+  });
+
+  // Every loop on the page plays while it's on screen
+  var vids = document.querySelectorAll(".vthumb video, .tvid video, .bento-item video, .feature-media");
+  if (!reduce && "IntersectionObserver" in window) {
+    var vio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.target.isConnected) return;
+        if (e.isIntersecting) e.target.play().catch(function () {}); else e.target.pause();
+      });
+    }, { rootMargin: "200px" });
+    vids.forEach(function (v) { v.muted = true; vio.observe(v); });
   }
+
+  // Tribute: plays on its own (muted) as soon as it scrolls into view
+  document.querySelectorAll("[data-autoplay-video]").forEach(function (box) {
+    var id = box.getAttribute("data-autoplay-video"), started = false;
+    function go() {
+      if (started) return; started = true;
+      box.innerHTML = embed(id, "&autoplay=1&mute=1&loop=1&playlist=" + id);
+    }
+    box.innerHTML = '<img src="' + (box.dataset.poster || "assets/img/hl-joy.jpg") + '" alt="">';
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { go(); o.disconnect(); } }, { rootMargin: "300px" }).observe(box);
+    } else go();
+  });
 
   // Host form opens an email until a form service is connected
   var host = document.querySelector("[data-host-form]");
@@ -172,7 +230,7 @@ var INVASION = {
   document.querySelectorAll("[data-year]").forEach(function (s) { s.textContent = new Date().getFullYear(); });
 
   // Reveal on scroll
-  var targets = document.querySelectorAll(".section-head,.night,.vcard,.mosaic img,.team-hero,.team-copy,.team-photos,.thirty-grid > *,.host-grid > *,.follow h2,.follow-link,.story > *,.timeline li");
+  var targets = document.querySelectorAll(".section-head,.tcard,.bento-item,.year,.night,.vcard,.mosaic img,.team-hero,.team-copy,.team-photos,.thirty-grid > *,.host-grid > *,.follow h2,.follow-link,.story > *,.timeline li");
   targets.forEach(function (t) { t.classList.add("reveal"); });
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (es) {

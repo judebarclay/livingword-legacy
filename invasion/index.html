@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Invasion Worship Nights</title>
-<meta name="description" content="Invasion Worship Nights. Find a night near you, watch the Invasion 2026 recaps, and bring Invasion to your church.">
+<meta name="description" content="Invasion Worship Nights. Find a night near you, host one at your church, and watch the Invasion 2026 recaps.">
 <meta property="og:title" content="Invasion Worship Nights">
 <meta property="og:description" content="Find a night near you. Watch the Invasion 2026 recaps.">
 <meta property="og:image" content="assets/img/hero-poster.jpg">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#050505">
 <link rel="icon" href="assets/img/icon-180.png">
 <link rel="apple-touch-icon" href="assets/img/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,16 +19,13 @@
 <body>
 
 <header class="nav" data-nav>
-  <a class="brand" href="index.html" aria-label="Invasion home">
-    <img src="assets/img/mark-white.png" alt="" width="14" height="22">
-    <span>INVASION</span>
-  </a>
+  <a class="brand" href="index.html" aria-label="Invasion home"><img src="assets/img/mark-white.png" alt="Invasion"></a>
   <nav class="links" aria-label="Main">
     <a href="#nights">Worship Nights</a>
     <a href="#recaps">Invasion 2026</a>
     <a href="#team">Invasion Worship</a>
+    <a href="thirty.html">30 Years</a>
     <a href="about.html">About</a>
-    <a href="#host">Host a Night</a>
   </nav>
   <div class="nav-social" data-social-icons></div>
   <a class="btn btn-sm" href="#nights">Find a night</a>
@@ -43,8 +40,7 @@
     </video>
     <div class="hero-shade"></div>
     <div class="hero-copy">
-      <h1>Invasion<br>Worship Nights</h1>
-      <p class="lede">One night of worship, in a city near you.</p>
+      <h1>INVASION<br>WORSHIP NIGHTS</h1>
       <div class="cta">
         <a class="btn" href="#nights">Find a night</a>
         <a class="btn btn-ghost" href="#recaps">Watch Invasion 2026</a>
@@ -52,29 +48,71 @@
     </div>
   </section>
 
-  <!-- NIGHTS -->
+  <!-- WORSHIP NIGHTS + HOST -->
   <section class="nights" id="nights">
     <div class="wrap">
-      <div class="section-head">
-        <h2>Find a night.</h2>
-        <p class="sub">Free to attend. Register to save your seat.</p>
+      <div class="section-head row-head">
+        <div>
+          <p class="eyebrow dark">Invasion Worship Nights</p>
+          <h2>Find a night.</h2>
+          <p class="sub">Free to attend. Register to save your seat.</p>
+        </div>
       </div>
       <ol class="night-list" data-nights></ol>
+
+      <div class="host-grid" id="host">
+        <div>
+          <p class="eyebrow dark">For pastors and youth leaders</p>
+          <h3 class="host-t">Bring Invasion to your city.</h3>
+          <p class="sub">One night of worship, preaching and encounter, hosted at your church. Now booking select dates.</p>
+          <p class="contact-line"><a data-link="email" href="#"></a><br><a data-link="phone" href="#"></a></p>
+        </div>
+        <form class="form" data-host-form>
+          <label>Name<input name="name" required autocomplete="name"></label>
+          <label>Church<input name="church" required></label>
+          <label>City<input name="city" required autocomplete="address-level2"></label>
+          <label>Email<input name="email" type="email" required autocomplete="email"></label>
+          <label class="full">Anything we should know?<textarea name="note" rows="3"></textarea></label>
+          <button class="btn btn-dark full" type="submit">Request a night</button>
+        </form>
+      </div>
     </div>
   </section>
 
   <!-- INVASION 2026 RECAPS -->
-  <section class="recaps" id="recaps">
+  <section class="recaps glow glow-cool" id="recaps">
     <div class="wrap">
-      <div class="section-head light row-head">
+      <div class="section-head row-head">
         <div>
-          <p class="eyebrow">July 21–24, 2026 · Midland, Michigan</p>
+          <p class="eyebrow">Invasion Legacy · July 21–24, 2026 · Midland, Michigan</p>
           <h2>Invasion 2026</h2>
         </div>
         <a class="btn btn-ghost" data-link="youtube" href="#">All videos on YouTube</a>
       </div>
-      <div class="video-feature" data-video="rgXHUvPAVgI" data-clip="inv-blood" data-title="Invasion Worship · The Blood"></div>
+      <div class="video-feature" data-video="rgXHUvPAVgI" data-clip="inv-blood" data-title="Invasion Worship · The Blood" data-where="Invasion Legacy 2026"></div>
       <div class="video-grid" data-videos="2026"></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIES -->
+  <section class="testi" id="testimonies">
+    <div class="wrap">
+      <div class="section-head row-head">
+        <div>
+          <p class="eyebrow">Invasion Legacy · 2026 testimonies</p>
+          <h2>Lives changed.<br>In their own words.</h2>
+        </div>
+        <p class="sub side">Healing, freedom, salvation and the baptism of the Holy Spirit. Students share what God did in one week at Invasion.</p>
+      </div>
+      <div class="video-feature" id="testi-player" data-video="onCNPrUt8Uw" data-clip="inv-fri-baptism" data-title="Invasion 2026 Testimonies" data-where="Invasion Legacy 2026"></div>
+      <div class="testi-grid" data-testimonies></div>
+    </div>
+  </section>
+
+  <!-- MOMENTS -->
+  <section class="moments">
+    <div class="wrap">
+      <div class="bento" data-moments></div>
     </div>
   </section>
 
@@ -85,7 +123,7 @@
       <img src="assets/img/team-smile.jpg" alt="Invasion Worship team member smiling" loading="lazy">
       <img class="tall" src="assets/img/hl-shout.jpg" alt="A student with arms raised in worship" loading="lazy">
       <img src="assets/img/hl-countdown.jpg" alt="The room before a session" loading="lazy">
-      <img src="assets/img/hl-drums.jpg" alt="Drummer on stage" loading="lazy">
+      <img src="assets/img/sports.jpg" alt="Beach volleyball at Invasion" loading="lazy">
       <img class="w2" src="assets/img/hl-hallelujah.jpg" alt="Hallelujah on the screens" loading="lazy">
       <img src="assets/img/hl-never-stop.jpg" alt="Friends in Never Stop Praying shirts" loading="lazy">
       <img src="assets/img/hl-friends.jpg" alt="Friends between sessions" loading="lazy">
@@ -96,9 +134,12 @@
   <!-- PAST YEARS -->
   <section class="past">
     <div class="wrap">
-      <div class="section-head light">
-        <p class="eyebrow">Past years</p>
-        <h2>Revolution 2025 and Freedom 2024</h2>
+      <div class="section-head row-head">
+        <div>
+          <p class="eyebrow">Past years</p>
+          <h2>Revolution 2025 and Freedom 2024</h2>
+        </div>
+        <a class="btn btn-ghost" href="thirty.html">Every year of Invasion</a>
       </div>
       <div class="video-grid" data-videos="past"></div>
     </div>
@@ -107,9 +148,10 @@
   <!-- INVASION WORSHIP -->
   <section class="team" id="team">
     <div class="wrap">
-      <figure class="team-hero"><img src="assets/img/team-group.jpg" alt="The Invasion Worship team" loading="lazy"></figure>
+      <figure class="team-hero"><img src="assets/img/band-2026.jpg" alt="Invasion Worship on stage at Invasion 2026" loading="lazy"></figure>
       <div class="team-row">
         <div class="team-copy">
+          <p class="eyebrow">The band</p>
           <h2>Invasion Worship</h2>
           <p>The team that leads the room every summer at Invasion, now bringing worship nights to churches across the country.</p>
           <div class="cta">
@@ -117,46 +159,36 @@
             <a class="btn btn-ghost" data-link="instagram" href="#">Follow on Instagram</a>
           </div>
         </div>
-        <div class="team-photos">
-          <img src="assets/img/team-vocal.jpg" alt="Worship leader at the mic" loading="lazy">
-          <img src="assets/img/team-violin.jpg" alt="Violinist smiling" loading="lazy">
-          <img src="assets/img/team-drums.jpg" alt="Drummer laughing" loading="lazy">
-          <img src="assets/img/team-keys.jpg" alt="Keys player" loading="lazy">
-        </div>
+        <div class="video-feature" data-video="rOewvj6FCJE" data-clip="inv-wholeroom" data-title="Whole Room (Live)" data-where="Invasion Worship"></div>
       </div>
     </div>
   </section>
 
   <!-- 30 YEARS -->
-  <section class="thirty">
+  <section class="thirty glow glow-warm">
     <div class="wrap thirty-grid">
       <div>
         <p class="thirty-num" aria-hidden="true">30</p>
-        <h2>Thirty years of Invasion.</h2>
-        <p class="sub">Since 1996, a generation encountering God every summer in Midland, Michigan.</p>
-        <a class="btn btn-ghost" href="about.html">About Invasion</a>
+        <p class="eyebrow">Invasion Legacy · 1996–2026</p>
+        <h2>Thirty years of a generation encountering God.</h2>
+        <p class="sub">From one summer conference in 1996 to a movement that has marked three decades of young people. The story is still being written.</p>
+        <div class="cta"><a class="btn" href="thirty.html">The 30-year tribute</a></div>
       </div>
-      <div class="video-feature" data-video="h34WI6Ly3a0" data-poster="assets/img/hl-joy.jpg" data-title="Invasion 30-Year Tribute"></div>
+      <div class="yt-live" data-autoplay-video="h34WI6Ly3a0" data-title="Invasion 30-Year Tribute"></div>
     </div>
   </section>
 
-  <!-- HOST -->
-  <section class="host" id="host">
-    <div class="wrap host-grid">
-      <div>
-        <p class="eyebrow dark">For pastors and youth leaders</p>
-        <h2>Bring Invasion to your city.</h2>
-        <p class="sub">One night of worship, preaching and encounter, hosted at your church.</p>
-        <p class="contact-line"><a data-link="email" href="#"></a><br><a data-link="phone" href="#"></a></p>
+  <!-- SEE YOU NEXT SUMMER -->
+  <section class="feature">
+    <video class="feature-media" autoplay muted loop playsinline preload="metadata" poster="assets/clips/inv-wed-band.jpg"><source src="assets/clips/inv-wed-band.mp4" type="video/mp4"></video>
+    <div class="wrap feature-in">
+      <p class="eyebrow">Be in the room</p>
+      <h2>See you next summer.</h2>
+      <div class="cta">
+        <a class="btn" href="about.html">About Invasion</a>
+        <a class="btn btn-ghost" data-link="instagram" href="#">Instagram</a>
+        <a class="btn btn-ghost" data-link="give" href="#">Give</a>
       </div>
-      <form class="form" data-host-form>
-        <label>Name<input name="name" required autocomplete="name"></label>
-        <label>Church<input name="church" required></label>
-        <label>City<input name="city" required autocomplete="address-level2"></label>
-        <label>Email<input name="email" type="email" required autocomplete="email"></label>
-        <label class="full">Anything we should know?<textarea name="note" rows="3"></textarea></label>
-        <button class="btn btn-dark full" type="submit">Send request</button>
-      </form>
     </div>
   </section>
 
@@ -172,24 +204,18 @@
 
 <footer class="foot">
   <div class="wrap foot-row">
-    <a class="brand" href="index.html"><img src="assets/img/mark-white.png" alt="" width="12" height="19"><span>INVASION</span></a>
+    <a class="brand" href="index.html" aria-label="Invasion home"><img src="assets/img/mark-white.png" alt="Invasion"></a>
     <nav aria-label="Footer">
       <a href="#nights">Worship Nights</a>
       <a href="#recaps">Invasion 2026</a>
+      <a href="thirty.html">30 Years</a>
       <a href="about.html">About</a>
-      <a href="#host">Host a Night</a>
       <a data-link="give" href="#">Give</a>
     </nav>
     <div class="nav-social" data-social-icons></div>
     <p class="fine">© <span data-year></span> Invasion · Midland, Michigan</p>
   </div>
 </footer>
-
-<div class="player" data-player hidden>
-  <button class="player-close" type="button" aria-label="Close video" data-player-close>×</button>
-  <div class="player-frame" data-player-frame></div>
-  <a class="player-yt" data-player-yt target="_blank" rel="noopener">Open on YouTube</a>
-</div>
 
 <script src="assets/invasion.js"></script>
 </body>
