@@ -6,9 +6,9 @@
 ------------------------------------------------------------------- */
 var INVASION = {
   nights: [
-    { date: "", time: "7 PM", church: "[Church Name]", city: "[City, State]", register: "" },
-    { date: "", time: "7 PM", church: "[Church Name]", city: "[City, State]", register: "" },
-    { date: "", time: "7 PM", church: "[Church Name]", city: "[City, State]", register: "" }
+    { date: "2026-11-11", time: "7 PM", church: "Covenant of Peace International", city: "Dayton, OH", register: "" },
+    { date: "2026-11-12", time: "7 PM", church: "Lake Michigan Christian Center", city: "Bridgman, MI", register: "" },
+    { date: "2026-11-13", time: "7 PM", church: "Resurrection Life Church", city: "Clarksville, IN", register: "" }
   ],
   links: {
     youtube: "https://www.youtube.com/@InvasionMinistries",
@@ -111,7 +111,7 @@ var INVASION = {
       li.querySelector("h3").textContent = n.church;
       li.querySelector("p").textContent = n.city;
       var a = li.querySelector("a");
-      a.href = n.register || "#host";
+      a.href = n.register || "mailto:" + L.email + "?subject=" + encodeURIComponent("Register: " + n.city + " worship night");
       if (n.register) { a.target = "_blank"; a.rel = "noopener"; }
       list.appendChild(li);
     });
