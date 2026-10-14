@@ -243,3 +243,9 @@ h3{font-size:24px;letter-spacing:-.02em;line-height:1.1}
 .center{text-align:center}
 .tiny{font-size:13px;color:var(--muted);margin-top:14px}
 .about-hero h1{font-size:clamp(56px,11vw,168px)}
+.founder{padding:0 0 clamp(96px,14vh,160px)}
+.gal{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.gal figure{border-radius:14px;overflow:hidden;aspect-ratio:4/5}
+.gal figure.w{aspect-ratio:auto}
+.gal img{width:100%;height:100%;object-fit:cover}
+@media (max-width:760px){.gal{grid-template-columns:1fr 1fr}.gal figure.w{grid-column:1/-1;aspect-ratio:3/2}}
