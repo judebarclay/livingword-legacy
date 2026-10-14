@@ -20,6 +20,6 @@ Photos come from the current livingwordchurch.com media library, resized on the 
 
 ## Invasion (`invasion/`)
 
-One-page site for invasion.net: Invasion Worship nights plus Invasion 26 highlights. Plain static files, no build step.
-Edit worship night dates, churches, registration links and the contact email at the top of `invasion/assets/invasion.js`.
+Site for invasion.net: Invasion Worship Nights, Invasion 2026 and past-year recaps, the 30-year tribute, and an About page (`about.html`). Plain static files, no build step.
+Edit worship night dates, churches, registration links, social links and the YouTube recap list at the top of `invasion/assets/invasion.js`. Video cards open the YouTube video in a popup; the short muted loops in `assets/clips/` play on hover.
 Photos and video are Jude's own (Invasion 26 film, Invasion Worship studio sessions, 2024 worship night selects).
