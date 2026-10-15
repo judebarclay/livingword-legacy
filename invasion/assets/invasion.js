@@ -208,11 +208,20 @@ var INVASION = {
     var vio = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.target.isConnected) return;
-        if (e.isIntersecting) e.target.play().catch(function () {}); else e.target.pause();
+        if (e.isIntersecting) { inView.add(e.target); e.target.play().catch(function () {}); }
+        else { inView.delete(e.target); e.target.pause(); }
       });
     }, { rootMargin: "200px" });
     vids.forEach(function (v) { v.muted = true; vio.observe(v); });
   }
+  // iPhones in Low Power Mode block autoplay; the first tap or scroll touch starts the loops
+  var inView = new Set();
+  var hero = document.querySelector(".hero-video");
+  if (hero) inView.add(hero);
+  function kick() {
+    inView.forEach(function (v) { if (v.isConnected && v.paused) v.play().catch(function () {}); });
+  }
+  ["touchend", "click", "keydown"].forEach(function (ev) { document.addEventListener(ev, kick, { passive: true }); });
 
   // Tribute: plays on its own (muted) as soon as it scrolls into view
   document.querySelectorAll("[data-autoplay-video]").forEach(function (box) {
